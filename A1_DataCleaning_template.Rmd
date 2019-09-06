@@ -121,7 +121,7 @@ Tip: You can either have one line of code for each child name that is to be chan
 
 
 ```{r}
-?str_replace_all()
+
 LU$ID <- str_replace_all(LU$ID,"[[:punct:]]","")
 demo$ID <- str_replace_all(demo$ID,"[[:punct:]]","")
 token$ID <- str_replace_all(token$ID,"[[:punct:]]","")
@@ -160,8 +160,8 @@ Most variables should make sense, here the less intuitive ones.
 Feel free to rename the variables into something you can remember (i.e. nonVerbalIQ, verbalIQ)
 
 ```{r}
-?subset()
-subDemo <- select(demo,ID,VISIT,Diagnosis,Gender,Age,MullenRaw,ExpressiveLangRaw,ADOS,Socialization)
+
+subDemo <- select(demo,ID,VISIT,Diagnosis,Gender,Ethnicity,Age,MullenRaw,ExpressiveLangRaw,ADOS,Socialization)
 subToken <-select(token,ID,VISIT,types_MOT,types_CHI,tokens_MOT,tokens_CHI)
 subLU <- select(LU,ID,VISIT,MOT_MLU, CHI_MLU)
 ```
@@ -175,8 +175,7 @@ Some things to pay attention to:
 ```{r}
 
 
-#still missing some rows?!?!?!? WTF?!?!
-?merge()
+
 finalData <- merge(subDemo,subToken, subLU, by.x = c("ID", "VISIT"), by.y = c("ID", "VISIT"), all.x= T)
 
 ```
@@ -211,6 +210,12 @@ Now we want to
 * Save the data set using into a csv file. Hint: look into write.csv()
 
 ```{r}
+
+finalData1$Gender[finalData1$Gender== "1"] <- "F"
+finalData1$Gender[finalData1$Gender== "2"] <- "M"
+finalData1$Diagnosis <- as.character(finalData1$Diagnosis)
+finalData1$Diagnosis[finalData1$Diagnosis== "A"] <- "ASD"
+finalData1$Diagnosis[finalData1$Diagnosis== "B"] <- "TD"
 
 ```
 

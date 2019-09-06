@@ -87,12 +87,6 @@ token$VISIT<- as.numeric(token$VISIT,"\\d")
 Tip: stringr is helpful again. Look up str\_replace\_all Tip: You can either have one line of code for each child name that is to be changed (easier, more typing) or specify the pattern that you want to match (more complicated: look up "regular expressions", but less typing)
 
 ``` r
-?str_replace_all()
-```
-
-    ## starting httpd help server ... done
-
-``` r
 LU$ID <- str_replace_all(LU$ID,"[[:punct:]]","")
 demo$ID <- str_replace_all(demo$ID,"[[:punct:]]","")
 token$ID <- str_replace_all(token$ID,"[[:punct:]]","")
@@ -108,8 +102,7 @@ Most variables should make sense, here the less intuitive ones. \* ADOS (Autism 
 Feel free to rename the variables into something you can remember (i.e. nonVerbalIQ, verbalIQ)
 
 ``` r
-?subset()
-subDemo <- select(demo,ID,VISIT,Diagnosis,Gender,Age,MullenRaw,ExpressiveLangRaw,ADOS,Socialization)
+subDemo <- select(demo,ID,VISIT,Diagnosis,Gender,Ethnicity,Age,MullenRaw,ExpressiveLangRaw,ADOS,Socialization)
 subToken <-select(token,ID,VISIT,types_MOT,types_CHI,tokens_MOT,tokens_CHI)
 subLU <- select(LU,ID,VISIT,MOT_MLU, CHI_MLU)
 ```
@@ -119,8 +112,6 @@ subLU <- select(LU,ID,VISIT,MOT_MLU, CHI_MLU)
 Some things to pay attention to: \* make sure to check that the merge has included all relevant data (e.g. by comparing the number of rows) \* make sure to understand whether (and if so why) there are NAs in the dataset (e.g. some measures were not taken at all visits, some recordings were lost or permission to use was withdrawn)
 
 ``` r
-#still missing some rows?!?!?!? WTF?!?!
-?merge()
 finalData <- merge(subDemo,subToken, subLU, by.x = c("ID", "VISIT"), by.y = c("ID", "VISIT"), all.x= T)
 ```
 
@@ -141,6 +132,14 @@ finalData1 <- merge(finalData,firstVisit, by = "ID")
 2g. Final touches
 
 Now we want to \* anonymize our participants (they are real children!). \* make sure the variables have sensible values. E.g. right now gender is marked 1 and 2, but in two weeks you will not be able to remember, which gender were connected to which number, so change the values from 1 and 2 to F and M in the gender variable. For the same reason, you should also change the values of Diagnosis from A and B to ASD (autism spectrum disorder) and TD (typically developing). Tip: Try taking a look at ifelse(), or google "how to rename levels in R". \* Save the data set using into a csv file. Hint: look into write.csv()
+
+``` r
+finalData1$Gender[finalData1$Gender== "1"] <- "F"
+finalData1$Gender[finalData1$Gender== "2"] <- "M"
+finalData1$Diagnosis <- as.character(finalData1$Diagnosis)
+finalData1$Diagnosis[finalData1$Diagnosis== "A"] <- "ASD"
+finalData1$Diagnosis[finalData1$Diagnosis== "B"] <- "TD"
+```
 
 1.  BONUS QUESTIONS The aim of this last section is to make sure you are fully fluent in the tidyverse. Here's the link to a very helpful book, which explains each function: <http://r4ds.had.co.nz/index.html>
 

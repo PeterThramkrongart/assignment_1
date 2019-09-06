@@ -216,7 +216,9 @@ finalData1$Gender[finalData1$Gender== "2"] <- "M"
 finalData1$Diagnosis <- as.character(finalData1$Diagnosis)
 finalData1$Diagnosis[finalData1$Diagnosis== "A"] <- "ASD"
 finalData1$Diagnosis[finalData1$Diagnosis== "B"] <- "TD"
-
+finalData1$ID <- as.factor(finalData1$ID )
+finalData1$ID <- as.numeric(finalData1$ID )
+write.csv(finalData1,"autistData.csv")
 ```
 
 

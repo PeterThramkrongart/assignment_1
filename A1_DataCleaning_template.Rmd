@@ -194,7 +194,13 @@ A possible way to do so:
 
 
 ```{r}
-
+firstVisit <- filter(finalData, VISIT == 1)
+firstVisit <- select(firstVisit,ID,ADOS,MullenRaw,ExpressiveLangRaw,Socialization)
+names(firstVisit)[names(firstVisit)=="ADOS"] <- "ADOS1"
+names(firstVisit)[names(firstVisit)=="Socialization"] <- "Socialization1"
+names(firstVisit)[names(firstVisit)=="MullenRaw"] <- "MullenRaw1"
+names(firstVisit)[names(firstVisit)=="ExpressiveLangRaw"] <- "ExpressiveLangRaw1"
+finalData1 <- merge(finalData,firstVisit, by = "ID")
 ```
 
 2g. Final touches

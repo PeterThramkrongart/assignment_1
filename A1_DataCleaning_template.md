@@ -128,6 +128,16 @@ finalData <- merge(subDemo,subToken, subLU, by.x = c("ID", "VISIT"), by.y = c("I
 
 A possible way to do so: \* create a new dataset with only visit 1, child id and the 4 relevant clinical variables to be merged with the old dataset \* rename the clinical variables (e.g. ADOS to ADOS1) and remove the visit (so that the new clinical variables are reported for all 6 visits) \* merge the new dataset with the old
 
+``` r
+firstVisit <- filter(finalData, VISIT == 1)
+firstVisit <- select(firstVisit,ID,ADOS,MullenRaw,ExpressiveLangRaw,Socialization)
+names(firstVisit)[names(firstVisit)=="ADOS"] <- "ADOS1"
+names(firstVisit)[names(firstVisit)=="Socialization"] <- "Socialization1"
+names(firstVisit)[names(firstVisit)=="MullenRaw"] <- "MullenRaw1"
+names(firstVisit)[names(firstVisit)=="ExpressiveLangRaw"] <- "ExpressiveLangRaw1"
+finalData1 <- merge(finalData,firstVisit, by = "ID")
+```
+
 2g. Final touches
 
 Now we want to \* anonymize our participants (they are real children!). \* make sure the variables have sensible values. E.g. right now gender is marked 1 and 2, but in two weeks you will not be able to remember, which gender were connected to which number, so change the values from 1 and 2 to F and M in the gender variable. For the same reason, you should also change the values of Diagnosis from A and B to ASD (autism spectrum disorder) and TD (typically developing). Tip: Try taking a look at ifelse(), or google "how to rename levels in R". \* Save the data set using into a csv file. Hint: look into write.csv()

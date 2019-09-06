@@ -175,7 +175,12 @@ Some things to pay attention to:
 ```{r}
 
 
+#still missing some rows?!?!?!? WTF?!?!
+?merge()
+finalData <- merge(subDemo,subToken, subLU, by.x = c("ID", "VISIT"), by.y = c("ID", "VISIT"), all.x= T)
+
 ```
+
 
 
 2f. Only using clinical measures from Visit 1

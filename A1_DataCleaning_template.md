@@ -118,6 +118,12 @@ subLU <- select(LU,ID,VISIT,MOT_MLU, CHI_MLU)
 
 Some things to pay attention to: \* make sure to check that the merge has included all relevant data (e.g. by comparing the number of rows) \* make sure to understand whether (and if so why) there are NAs in the dataset (e.g. some measures were not taken at all visits, some recordings were lost or permission to use was withdrawn)
 
+``` r
+#still missing some rows?!?!?!? WTF?!?!
+?merge()
+finalData <- merge(subDemo,subToken, subLU, by.x = c("ID", "VISIT"), by.y = c("ID", "VISIT"), all.x= T)
+```
+
 2f. Only using clinical measures from Visit 1 In order for our models to be useful, we want to miimize the need to actually test children as they develop. In other words, we would like to be able to understand and predict the children's linguistic development after only having tested them once. Therefore we need to make sure that our ADOS, MullenRaw, ExpressiveLangRaw and Socialization variables are reporting (for all visits) only the scores from visit 1.
 
 A possible way to do so: \* create a new dataset with only visit 1, child id and the 4 relevant clinical variables to be merged with the old dataset \* rename the clinical variables (e.g. ADOS to ADOS1) and remove the visit (so that the new clinical variables are reported for all 6 visits) \* merge the new dataset with the old
